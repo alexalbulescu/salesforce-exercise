@@ -9,7 +9,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, "views")));
 
 app.use("/", require("./routes/index"));
-app.use('/stores', require("./routes/stores"));
+app.use('/api/stores', require("./routes/storesApi"));
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
