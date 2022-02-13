@@ -46,9 +46,7 @@ exports.create = (req, res) => {
 
 // get all stores
 exports.findAll =  (req, res) => {
-    const title = req.query.title;
-    let condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
-    Store.findAll({where: condition})
+    Store.findAll({where: null})
         .then(data => {
             res.send(data);
         })
@@ -56,5 +54,30 @@ exports.findAll =  (req, res) => {
            res.status(500).send({
                message: err.message || "Some error occurred while retrieving stores."
            });
+        });
+}
+
+exports.getOptions = (req, res) => {
+    Store.findAll({where: null})
+        .then(data => {
+            let options = [];
+            if (data.length) {
+                for(let i = 0; i < data.length; i++) {
+                    let optionsData = data[i]['options'].split(',');
+                    if (optionsData.length) {
+                        for(let j = 0; j < optionsData.length; j++) {
+                            if(! options.includes(optionsData[j])) {
+                                options.push(optionsData[j]);
+                            }
+                        }
+                    }
+                }
+            }
+            res.send(options);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving stores options."
+            });
         });
 }

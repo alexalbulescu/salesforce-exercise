@@ -7,4 +7,6 @@ router.post("/", stores.create);
 //get all stores
 router.get("/", stores.findAll);
 
+router.get("/options", stores.getOptions);
+
 module.exports = router;
